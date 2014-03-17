@@ -13,11 +13,11 @@ module AttributeChangedSpecification
             to   = args[0][:to]
 
             if from && to
-              self.changes[attr][0] == from && __send__(attr) == to
+              [from].flatten.include?(self.changes[attr][0]) && [to].flatten.include?(__send__(attr))
             elsif from
-              self.changes[attr][0] == from
+              [from].flatten.include?(self.changes[attr][0])
             elsif to
-              __send__(attr) == to
+              [to].flatten.include?(__send__(attr))
             else
               attribute_changed_without_specification?(attr, args)
             end
