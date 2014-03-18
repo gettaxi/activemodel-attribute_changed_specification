@@ -85,6 +85,17 @@ class DirtyTest < ActiveModel::TestCase
     assert @model.color_changed?(to: 'green')
   end
 
+  test "detect changes within array" do
+    @model.color = 'red'
+    @model.save
+    @model.color = 'green'
+
+    assert @model.color_changed?
+    assert @model.color_changed?(from: ['red', 'blue'])
+    assert @model.color_changed?(to: ['yellow', 'green'])
+    assert !@model.color_changed?(to: ['yellow', 'blue'])
+  end
+
   test "pass *args to original method when invalid arguments was given" do
     @model.color = 'red'
 
